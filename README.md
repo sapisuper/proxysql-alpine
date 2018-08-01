@@ -5,16 +5,16 @@ Build docker proxysql with base image from alpine
 ProxySQL helps you squeeze the last drop of performance out of your MySQL cluster, without controlling the applications that generate the queries.
 
 # How to build
-1. pull this repo
+## 1. pull this repo
 
-2. build this dockerfile
-   docker build -t proxysql-alpine:1.0 .
+## 2. build this dockerfile
+#### docker build -t proxysql-alpine:1.0 .
 
-3. Start your container
-   docker run -d --name proxysql --restart always -p 6033:6033 -p 6032:6032 proxysql-alpine:1.0
+## 3. Start your container
+#### docker run -d --name proxysql --restart always -p 6033:6033 -p 6032:6032 proxysql-alpine:1.0
 
-4. Connect to ProxySQL administration interface
-    $ mysql -u proxysqladmin -pproxysqladmin -h 0.0.0.0 -P6032 --prompt='Admin> '
+## 4. Connect to ProxySQL administration interface
+#### $ mysql -u proxysqladmin -pproxysqladmin -h 0.0.0.0 -P6032 --prompt='Admin> '
       mysql: [Warning] Using a password on the command line interface can be insecure.
       Welcome to the MySQL monitor.  Commands end with ; or \g.
       Your MySQL connection id is 1
