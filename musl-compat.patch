@@ -1,0 +1,36 @@
++++ lib/ProxySQL_GloVars.cpp.patched
+@@ -16,6 +16,7 @@
+ #ifdef DEBUG
+ //	malloc_stats_print(NULL, NULL, "");
+ #endif
++#ifdef __GLIBC__
+ 	void *arr[20];
+ 	size_t s;
+ 
+@@ -23,6 +23,7 @@
+ 
+ 	fprintf(stderr, "Error: signal %d:\n", sig);
+ 	backtrace_symbols_fd(arr, s, STDERR_FILENO);
++#endif
+ //#ifdef SYS_gettid
+ 	// try to generate a core dump signaling again the thread
+ 	signal(sig, SIG_DFL);
++++ deps/Makefile.patched
+@@ -7,7 +7,7 @@
+ libdaemon/libdaemon/libdaemon/.libs/libdaemon.a: 
+ 	cd libdaemon && rm -rf libdaemon-0.14
+ 	cd libdaemon && tar -zxf libdaemon-0.14.tar.gz
++	cd libdaemon/libdaemon && ./configure --disable-examples
+ 	cd libdaemon/libdaemon && CC=${CC} CXX=${CXX} ${MAKE}
+ 
+ libdaemon: libdaemon/libdaemon/libdaemon/.libs/libdaemon.a
++++ src/Makefile.patched
+@@ -34,8 +34,8 @@
+ 
+ MYCPPFLAGS=-std=c++11 $(IDIRS) $(OPTZ) $(DEBUG)
+ LDFLAGS+=
++#MYLIBS=-Wl,--export-dynamic -Wl,-Bstatic -lconfig -lproxysql -ldaemon -ljemalloc -lconfig++ -lre2 -lmariadbclient -Wl,-Bdynamic -lpthread -lm -lz -lrt -lcrypto -lssl $(EXTRALINK)
++MYLIBS=-Wl,--export-dynamic -Wl,-Bstatic -lconfig -lproxysql -ldaemon -lconfig++ -lre2 -lmariadbclient -Wl,-Bdynamic -lpthread -lm -lz -lrt -lcrypto -lssl $(EXTRALINK)
+ 
+ UNAME_S := $(shell uname -s)
+ ifeq ($(UNAME_S),Linux)
